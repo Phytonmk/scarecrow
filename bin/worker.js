@@ -1,13 +1,14 @@
 const tgApi = require('node-telegram-bot-api');
 module.exports = (configs) => {
   const logger = require(__dirname + '/logger')(configs);
-  const app = {configs};
+  const app = {configs, requests: {}};
 
-  app.tg = new tgApi(configs.token, {
+  app.tgApi = new tgApi(configs.token, {
     polling: !configs.webhooks,
     request: {proxy: configs.requestProxyString}
   });
 
+  require(__dirname + '/lasting-counter')(app);
   require(__dirname + '/https-server')(app);
   require(__dirname + '/init/database')(app);
 

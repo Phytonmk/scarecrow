@@ -6,9 +6,10 @@ const loadFromFolderToVariable = (folder, variable) => {
     for (let file of filesList) {
       const componentName = file.indexOf('.js') === file.length - 3 ?
        file.substr(0, file.length - 3) : file;
-      if (fs.lstatSync(folder + '/' + file).isDirectory())
-        loadFromFolderToVariable(folder + '/' + file)
-      else if (typeof variable[componentName] === 'undefined') {
+      if (fs.lstatSync(folder + '/' + file).isDirectory()) {
+        variable[file] = {};
+        loadFromFolderToVariable(folder + '/' + file, variable[file]);
+      } else if (typeof variable[componentName] === 'undefined') {
         variable[componentName] = require(folder + '/' + file);
       }
     }

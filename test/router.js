@@ -1,26 +1,11 @@
-module.exports = (controllers) => {
+module.exports = (router, controllers, Subrouter) => {
   const c = controllers;
-  return {
-    0: {
-      text: {
-        'hi|hello': c.hi,
-        'ping': c.ping,
-        'test': c.test,
-      },
-      image: c.imageFrowarder,
-      states: {
-        feedback: c.feedback,
-        userpic: c.setuserpic,
-        // voteStep1: c.vote.init,
-        // voteStep2: c.vote.rateBot,
-        // voteStep3: c.vote.leaveComment
-      }
-    },
-    10: {
-      text: {
-        'secret': c.secretAnswer,
-        '/users': c.usersList
-      }
-    }
-  }
+  router.default(c.default);
+  router.text(/hi|hello/i, c.hi);
+  router.text('/ping', c.ping);
+  router.photo(c.images.forwarder); 
+  // router.image('Some caption', c.images.captionEditor);
+  const adminOnly = new Subrouter(); 
+  router.access(10, adminOnly);
+    adminOnly.text('Password', c.secretCode)
 }
