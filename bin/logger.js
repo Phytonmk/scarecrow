@@ -11,6 +11,10 @@ const addZero = a => {
 module.exports = (configs) => {
   const loggers = [];
 
+  if (configs.logger.console) {
+    loggers.push(console.log);
+  }
+
   if (configs.logger.telegram) {
     loggers.push((text) => {
       axios.post(`https://api.telegram.org/bot${configs.logger.telegram.token}/sendMessage`, {
@@ -29,6 +33,7 @@ module.exports = (configs) => {
       console.log(`Unable to log: "${configs.logger.folder}" no such file or directory`);
     }
   }
+
   return {
     error(...logData) {this.genLog('error', logData)},
     info(...logData) {this.genLog('info', logData)},

@@ -8,8 +8,8 @@ module.exports = (app) => {
       extended: true
     }));
     server.use(bodyParser.json());
-    server.post(configs.webhooks.host, (req, res) => {
-      app.bot.processUpdate(req.body);
+    server.post(configs.webhooks.path, (req, res) => {
+      app.tg.processUpdate(req.body);
       res.status(200);
       res.end('');
     });

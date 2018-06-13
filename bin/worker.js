@@ -1,16 +1,13 @@
-const tgApi = require('node-telegram-bot-api');
-module.exports = (configs) => {
+module.exports = (configs, masterApp=null) => {
   const logger = require(__dirname + '/logger')(configs);
-  const app = {configs, requests: {}};
+  const app = masterApp !== null ? masterApp : require(__dirname + '/init/app')(configs);
 
-  app.tgApi = new tgApi(configs.token, {
-    polling: !configs.webhooks,
-    request: {proxy: configs.requestProxyString}
-  });
-
-  require(__dirname + '/lasting-counter')(app);
-  require(__dirname + '/https-server')(app);
   require(__dirname + '/init/database')(app);
+  require(__dirname + '/https-server')(app);
+  
+  require(__dirname + '/init/textes')(app).catch(e => {
+    logger.error('Cannot load languages textes ' + e);
+  });
 
   require(__dirname + '/init/components')(app, ['controllers', 'helpers', 'models']);
   const initValueOfModelsFolder = app.configs.folders.models;
@@ -18,4 +15,5 @@ module.exports = (configs) => {
   require(__dirname + '/init/components')(app, ['models']);
   app.configs.folders.models = initValueOfModelsFolder;
   require(__dirname + '/router/router')(app);
+  console.log(app.textes);
 }

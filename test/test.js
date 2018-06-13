@@ -9,7 +9,7 @@ initScarecrow({
     textes: __dirname + '/textes',
   },
   languages: {
-    multi: true,
+    many: true,
     main: 'en',
     greetings: 'Please, select language:'
   },
@@ -24,16 +24,16 @@ initScarecrow({
     }
   },
   token: '464674881:AAEAt1vizzm68hFxpXM_VdyQFZk4WVCywxM',
-  webhooks: false,
   // webhooks: {
-  //   port: '',
-  //   ip: '/127.0.0.1' // from ip().address by default
+  //   port: '443',
+  //   domain: '127.0.0.1',
+  //   path: 'AAEAt1vizzm68hFxpXM_VdyQFZk4WVCywxM',
   //   certs: {
   //     private: __dirname + '/ssl/private',
   //     public: __dirname + '/ssl/public',
   //   },
-  //   max_connections: 40,
-  //   allowed_updates: null,
+  //   // max_connections: 40,
+  //   // allowed_updates: null,
   // },
   workers: {
     max: 10,
@@ -41,11 +41,12 @@ initScarecrow({
     normal: 2
   },
   logger: {
-    folder: __dirname + '/logs',
+    // folder: __dirname + '/logs',
     telegram: {
       recipient: 156646228,
       token: '464674881:AAEAt1vizzm68hFxpXM_VdyQFZk4WVCywxM'
-    }
+    },
+    console: true
   },
   autoexit: 1000 * 60 * 60 * 24 * 7,
   router: __dirname + '/router.js'
