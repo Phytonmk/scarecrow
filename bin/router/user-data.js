@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 module.exports = (app, ctx) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -17,6 +16,10 @@ module.exports = (app, ctx) => {
           user.username = ctx.from.username;
         else
           user.username = '';
+        if (app.configs.languages && app.configs.languages.main)
+          user.lang = app.configs.languages.main;
+        if (ctx.text && /^(\/start)\s.{1,}$/i.test(ctx.text))
+          user.start_string = ctx.text.substr(7);
         await user.save();
       } else {
         user = userMatch;

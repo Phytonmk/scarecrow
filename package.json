@@ -1,6 +1,6 @@
 {
   "name": "scarecrow",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Framework for Telegram Bot Api based on NodeJS and Mongo DB",
   "main": "index.js",
   "author": "Phyton <phytonmk@yandex.ru>",

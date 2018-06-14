@@ -5,7 +5,7 @@ class Router {
     this.statesRoutes = {};
     this.accessLayers = [];
     this.defaultController = null;
-    for (let event of events) {
+    for (let event of events.common) {
       this[event] = (a, b) => {
         let condition, controller;
         if (b !== undefined) {
@@ -22,6 +22,8 @@ class Router {
               compare = ctx.text;
             else if (ctx.caption !== undefined)
               compare = ctx.caption;
+            else if (ctx.query !== undefined)
+              compare = ctx.query;
             if (compare === null || condition === null)
               resolve(controller);
             else if (condition instanceof RegExp && condition.test(compare))

@@ -10,7 +10,8 @@ const UserScheme = new Schema({
   id: Number,
   access: {type: Number, default: 0},
   state: {type: String, default: ''},
-  lang: {type: String, default: 'unknown'},
+  lang: String,
+  start_string: {type: String, default: ''}
 });
 
 module.exports = mongoose.model('User', UserScheme);

@@ -10,14 +10,13 @@ initScarecrow({
   },
   languages: {
     many: true,
-    main: 'en',
-    greetings: 'Please, select language:'
+    main: 'en'
   },
   database: 'mongodb://testAdmin:password@localhost:27017/frameworkTesting',
   proxy: {
     useProxy: false,
-    host: '94.16.122.115',
-    port: '3128',
+    host: '178.238.235.228',
+    port: '3128', 
     auth: {
       username: '',
       password: ''

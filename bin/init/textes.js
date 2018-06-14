@@ -1,29 +1,48 @@
 const fs = require('fs');
 const yaml = require('js-yaml');
-module.exports = (app) => new Promise((resolve, reject) => {
-    fs.readdir(app.configs.folders.textes, async (err, langsList) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      try {
-        if (!app.configs.languages.many && langsList.length > 1) {
-          reject('In single languages app only 1 language file acceptable');
-        }
-        const textes = {};
-        for (let langFile of langsList) {
-            const langPureData = await promisedFileRead(app.configs.folders.textes + '/' + langFile, 'utf-8');
-            const langData = yaml.safeLoad(langPureData);
-            const langName = langFile.replace(/\.yaml/gi, '');
-            textes[langName] = langData;
-        }
-        app.textes = textes;
-        resolve();
-      } catch (e) {
-        reject(e);
-      }
-    });
+module.exports = (app, rewrite=false) =>
+  new Promise(async (resolve, reject) => {
+    await loadTextes(app, rewrite, app.configs.folders.textes).catch(e => reject(e));
+    await loadTextes(app, false, __dirname + '/../../default-components/textes').catch(e => reject(e));
+    resolve();
   });
+
+const loadTextes = (app, rewrite, folder) => new Promise((resolve, reject) => {
+  fs.readdir(folder, async (err, langsList) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+    try {
+      let textes;
+      if (rewrite || typeof app.textes === 'undefined')
+        textes = {};
+      else
+        textes = app.textes;
+      const langs = [];
+      for (let langFile of langsList) {
+        const langPureData = await promisedFileRead(folder + '/' + langFile, 'utf-8');
+        const langData = yaml.safeLoad(langPureData);
+        const langName = langFile.replace(/\.yaml/gi, '');
+        langs.push(langName);
+        if (typeof textes[langName] === 'undefined')
+          textes[langName] = {};
+        for (let string in langData) {
+          if (rewrite || typeof textes[langName][string] === 'undefined')
+            textes[langName][string] = langData[string];
+        }
+      }
+      app.textes = textes;
+      if (!app.langs || langs.length > app.length)
+        app.langs = langs;
+      if (app.configs.languages && app.configs.languages.many)
+        fillSpacesInAdditionalLanguages(app);
+      resolve();
+    } catch (e) {
+      reject(e);
+    }
+  });
+});
 
 const promisedFileRead = async (path, encoding) => new Promise((resolve, reject) => {
   fs.readFile(path, encoding, (err, data) => {
@@ -33,3 +52,16 @@ const promisedFileRead = async (path, encoding) => new Promise((resolve, reject)
       resolve(data);
   }) 
 });
+
+const fillSpacesInAdditionalLanguages = (app) => {
+  for(let lang in app.textes) {
+    if (lang !== app.configs.languages.main) {
+      for (let string in app.textes[app.configs.languages.main]) {
+        if (typeof app.textes[lang][string] === 'undefined') {
+          app.textes[lang][string] = 
+            app.textes[app.configs.languages.main][string];
+        }
+      }
+    }
+  }
+}

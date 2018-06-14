@@ -33,44 +33,44 @@ module.exports = (configs) => {
       console.log(`Unable to log: "${configs.logger.folder}" no such file or directory`);
     }
   }
+  const genLog = (type, chunks) => {
+    const date = new Date();
+    let dateString = '[';
+    dateString += addZero(date.getHours());
+    dateString += ':';
+    dateString += addZero(date.getMinutes());
+    dateString += ':';
+    dateString += addZero(date.getSeconds());
+
+    dateString += '][';
+
+    dateString += addZero(date.getMonth() + 1);
+    dateString += '/';
+    dateString += addZero(date.getDate());
+
+    dateString += ']';
+    switch (type) {
+      case 'error':
+        dateString += '[ERR]';
+        break;
+      case 'info':
+        dateString += '[inf]';
+        break;
+      case 'warning':
+        dateString += '[wrn]';
+        break;
+    }
+    for (let logger of loggers) {
+      for (let chunk of chunks) {
+        logger(dateString + ' ' + chunk);
+      }
+    }
+  }
 
   return {
-    error(...logData) {this.genLog('error', logData)},
-    info(...logData) {this.genLog('info', logData)},
-    warning(...logData) {this.genLog('warning', logData)},
-    log(...logData) {this.genLog('log', logData)},
-    genLog(type, chunks) {
-      const date = new Date();
-      let dateString = '[';
-      dateString += addZero(date.getHours());
-      dateString += ':';
-      dateString += addZero(date.getMinutes());
-      dateString += ':';
-      dateString += addZero(date.getSeconds());
-
-      dateString += '][';
-
-      dateString += addZero(date.getMonth() + 1);
-      dateString += '/';
-      dateString += addZero(date.getDate());
-
-      dateString += ']';
-      switch (type) {
-        case 'error':
-          dateString += '[ERR]';
-          break;
-        case 'info':
-          dateString += '[inf]';
-          break;
-        case 'warning':
-          dateString += '[wrn]';
-          break;
-      }
-      for (let logger of loggers) {
-        for (let chunk of chunks) {
-          logger(dateString + ' ' + chunk);
-        }
-      }
-    } 
+    error(...logData) {genLog('error', logData)},
+    info(...logData) {genLog('info', logData)},
+    warning(...logData) {genLog('warning', logData)},
+    log(...logData) {genLog('log', logData)}
   }
 }
