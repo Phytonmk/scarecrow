@@ -30,4 +30,4 @@ module.exports = (app, ctx) => {
       reject(e);
     }
   });
-}
+};

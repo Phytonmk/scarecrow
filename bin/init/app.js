@@ -7,4 +7,4 @@ module.exports = (configs) => {
   });
   require(__dirname + '/../methods-proxier')(app);
   return app;
-}
+};

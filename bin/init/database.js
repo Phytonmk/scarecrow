@@ -5,6 +5,6 @@ module.exports = (app) => {
     const logger = require(__dirname + '/../logger')(app.configs);
     mongoose.connect(app.configs.database)
       .then(() => app.mongo = 'connected')
-      .catch((e) => {logger.error('DB connection error:' + e)})
+      .catch((e) => logger.error('DB connection error:' + e));
   }
-}
+};

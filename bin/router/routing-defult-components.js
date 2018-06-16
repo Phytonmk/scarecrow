@@ -5,4 +5,4 @@ module.exports = (router, app) => {
   router.text((ctx, user, app) => /^(\/start)/.test(ctx.text) || ctx.text === '/lang', c['languages-switcher'].init);
   router.callback_query(/^(set-language:).{1,}$/, c['languages-switcher'].set);
   // router.text('/lang', c['languages-switcher']);
-}
+};

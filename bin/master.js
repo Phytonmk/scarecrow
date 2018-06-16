@@ -10,4 +10,4 @@ module.exports = (configs) => {
   require(__dirname + '/init/components')(app, ['intervals', 'helper'], configs.folders);
   if (!configs.useClusters)
     require(__dirname + '/worker')(configs, app);
-}
+};

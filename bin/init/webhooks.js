@@ -28,7 +28,7 @@ module.exports = (configs) => {
           .catch((e)=>{reject(e)});
       });
     });
-  }
+  };
 
   const whConfigs = configs.webhooks;
   getWebHooksInfo().then(response => {
@@ -50,4 +50,4 @@ module.exports = (configs) => {
   }).catch((e) => {
     logger.error(`Cannot get webhooks info: ${e}\nWith settings ${JSON.stringify(configs.webhooks, null, 2)}`);
   });
-}
+};

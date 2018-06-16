@@ -19,7 +19,7 @@ module.exports = (app) => {
       });
   };
   require(__dirname + '/aggregator')(app.tgApi, routEvent, logger.error);
-}
+};
 
 const resolveRout = (router, event, user, Router, app) => {
   return new Promise(async (resolve, reject) => {
@@ -39,7 +39,7 @@ const resolveRout = (router, event, user, Router, app) => {
           try {
             controller(event.ctx, user, app);
           } catch(e) {
-            reject(e)
+            reject(e);
           }
           resolve();
         }
@@ -59,7 +59,7 @@ const resolveRout = (router, event, user, Router, app) => {
         try {
           controller(event.ctx, user, app);
         } catch(e) {
-          reject(e)
+          reject(e);
         }
         resolve();
       }
@@ -71,7 +71,7 @@ const resolveRout = (router, event, user, Router, app) => {
         reject(false);
     }
   });
-}
+};
 
 const iterateAccessLevels = (router, user) => {
   let availableRoutes = [];
@@ -81,7 +81,7 @@ const iterateAccessLevels = (router, user) => {
     }
   }
   return availableRoutes;
-}
+};
 
 const iterateRouter = (routerLeyer, event, user, app) => {
   return new Promise(async (resolve, reject) => {
@@ -102,4 +102,4 @@ const iterateRouter = (routerLeyer, event, user, app) => {
     if (unhandeledRout)
       reject();
   });
-}
+};

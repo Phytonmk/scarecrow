@@ -12,7 +12,7 @@ module.exports = (configs, masterApp=null) => {
         'models': __dirname + '/../default-components/models',
         'controllers': __dirname + '/../default-components/controllers',
         'textes': __dirname + '/../default-components/textes',
-      }
+      };
       require(__dirname + '/init/components')(app, ['models', 'controllers']);
       app.configs.folders.models = initValueOfFolder;
       require(__dirname + '/router/router')(app);
@@ -20,4 +20,4 @@ module.exports = (configs, masterApp=null) => {
     .catch(e => {
       logger.error('Cannot load languages textes ' + e);
     });
-}
+};

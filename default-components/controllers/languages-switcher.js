@@ -1,15 +1,14 @@
-const mongoose = require('mongoose')
 module.exports = {
   init: (ctx, user, app) => {
     let textes = app.textes[user.lang];
     const languageButtons = [];
     for (let lang of app.langs) {
       languageButtons.push({
-        text: app.textes[lang]['language-full-title'] !== app.textes[app.configs.languages.main]['language-full-title']
-          || lang === app.configs.languages.main ?
+        text: app.textes[lang]['language-full-title'] !== app.textes[app.configs.languages.main]['language-full-title'] ||
+          lang === app.configs.languages.main ?
           app.textes[lang]['language-full-title'] : lang,
         callback_data: 'set-language:' + lang
-      })
+      });
     }
     const keyboard = [];
     while(languageButtons.length > 0) {
@@ -36,4 +35,4 @@ module.exports = {
         {chat_id: ctx.message.chat.id, message_id: ctx.message.message_id});
     }
   }
-}
+};

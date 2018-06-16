@@ -44,7 +44,7 @@ class Router {
           this.routes[event] = [route];
         else
           this.routes[event].push(route);
-      }
+      };
     }
   }
   access(level, controller) {

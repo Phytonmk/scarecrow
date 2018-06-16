@@ -16,7 +16,7 @@ const loadFromFolderToVariable = (folder, variable, app, component) => {
       }
     }
   }
-}
+};
 
 module.exports = (app, components) => {
   let folders = app.configs.folders;
@@ -28,4 +28,4 @@ module.exports = (app, components) => {
     }
     loadFromFolderToVariable(folders[component], app[component], app, component);
   }
-}
+};

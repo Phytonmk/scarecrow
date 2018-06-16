@@ -21,4 +21,4 @@ module.exports = (configs) => {
     proxyString += configs.requestProxy.port;
     configs.requestProxyString = proxyString;
   }
-}
+};

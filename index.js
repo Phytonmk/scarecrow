@@ -1,14 +1,14 @@
-process.env["NTBA_FIX_319"] = 1;
+process.env.NTBA_FIX_319 = 1;
 if (module.parent === null) {
   for(let i in [0,0,0,0]) console.log('\n');
-  console.log('-------------------------------------------')
-  console.log('|Use this module via require(\'scarecrow\');|')
-  console.log('-------------------------------------------')
+  console.log('-------------------------------------------');
+  console.log('|Use this module via require(\'scarecrow\');|');
+  console.log('-------------------------------------------');
   for(let i in [0,0,0,0]) console.log('\n');
 }
 module.exports = (configs={}) => {
   require(__dirname + '/bin/init/request-proxy')(configs);
-  let useClusters = true
+  let useClusters = true;
   if (!configs.webhooks)
     useClusters = false;
   if (!configs.workers)
@@ -25,4 +25,4 @@ module.exports = (configs={}) => {
     else
       require(__dirname + '/bin/worker.js')(configs);
   }
-}
+};

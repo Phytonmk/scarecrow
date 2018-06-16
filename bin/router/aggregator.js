@@ -10,4 +10,4 @@ module.exports = (tg, callback, logError) => {
       logError(`${event} ${e}`);
     });
   }
-}
+};

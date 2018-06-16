@@ -6,7 +6,7 @@ const addZero = a => {
   while (a.length < 2)
     a = '0' + a;
   return a;
-}
+};
 
 module.exports = (configs) => {
   const loggers = [];
@@ -65,12 +65,12 @@ module.exports = (configs) => {
         logger(dateString + ' ' + chunk);
       }
     }
-  }
+  };
 
   return {
     error(...logData) {genLog('error', logData)},
     info(...logData) {genLog('info', logData)},
     warning(...logData) {genLog('warning', logData)},
     log(...logData) {genLog('log', logData)}
-  }
-}
+  };
+};

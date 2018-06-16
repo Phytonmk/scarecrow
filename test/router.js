@@ -7,5 +7,5 @@ module.exports = (router, controllers, Subrouter) => {
   // router.image('Some caption', c.images.captionEditor);
   const adminOnly = new Subrouter(); 
   router.access(10, adminOnly);
-    adminOnly.text('Password', c.secretCode)
-}
+    adminOnly.text('Password', c.secretCode);
+};

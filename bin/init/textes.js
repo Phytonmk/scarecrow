@@ -44,13 +44,13 @@ const loadTextes = (app, rewrite, folder) => new Promise((resolve, reject) => {
   });
 });
 
-const promisedFileRead = async (path, encoding) => new Promise((resolve, reject) => {
+const promisedFileRead = (path, encoding) => new Promise((resolve, reject) => {
   fs.readFile(path, encoding, (err, data) => {
     if (err)
       reject(err);
     else
       resolve(data);
-  }) 
+  });
 });
 
 const fillSpacesInAdditionalLanguages = (app) => {
@@ -64,4 +64,4 @@ const fillSpacesInAdditionalLanguages = (app) => {
       }
     }
   }
-}
+};

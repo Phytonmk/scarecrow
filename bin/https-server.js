@@ -19,4 +19,4 @@ module.exports = (app) => {
     };
     https.createServer(sslconfigs, app).listen(configs.webhooks.port);
   }
-}
+};
