@@ -1,6 +1,6 @@
 module.exports = (router, controllers, Subrouter) => {
   const c = controllers;
-  // router.default(c.default);
+  router.default(c.default);
   router.text(/hi|hello/i, c.hi);
   router.text('/ping', c.ping);
   router.photo(c.images.forwarder); 

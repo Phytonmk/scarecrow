@@ -7,6 +7,7 @@ if (module.parent === null) {
   for(let i in [0,0,0,0]) console.log('\n');
 }
 module.exports = (configs={}) => {
+  require(__dirname + '/bin/init/configs-checker')(configs);
   require(__dirname + '/bin/init/request-proxy')(configs);
   let useClusters = true;
   if (!configs.webhooks)

@@ -11,26 +11,27 @@ const addZero = a => {
 module.exports = (configs) => {
   const loggers = [];
 
-  if (configs.logger.console) {
+  if (!configs.logger || configs.logger.console) {
     loggers.push(console.log);
   }
-
-  if (configs.logger.telegram) {
-    loggers.push((text) => {
-      axios.post(`https://api.telegram.org/bot${configs.logger.telegram.token}/sendMessage`, {
-        chat_id: configs.logger.telegram.recipient, text 
-      }, (configs.requestProxy ? {proxy: configs.requestProxy} : {})).catch((e)=>{console.log('Unable to log:', e)});
-    });
-  }
-
-  if (configs.logger.folder) {
-    if (fs.existsSync(configs.logger.folder)) {
+  if (configs.logger) {
+    if (configs.logger.telegram) {
       loggers.push((text) => {
-        const filename = new Date().getFullYear() + '-' + addZero(new Date().getMonth() + 1) + '-' + addZero(new Date().getDate() + '.log');
-        fs.appendFile(configs.logger.folder + '/' + filename, text + '\n').catch((e)=>{console.log('Unable to log:', e)});
+        axios.post(`https://api.telegram.org/bot${configs.logger.telegram.token}/sendMessage`, {
+          chat_id: configs.logger.telegram.recipient, text 
+        }, (configs.requestProxy ? {proxy: configs.requestProxy} : {})).catch((e)=>{console.log('Unable to log:', e)});
       });
-    } else {
-      console.log(`Unable to log: "${configs.logger.folder}" no such file or directory`);
+    }
+
+    if (configs.logger.folder) {
+      if (fs.existsSync(configs.logger.folder)) {
+        loggers.push((text) => {
+          const filename = new Date().getFullYear() + '-' + addZero(new Date().getMonth() + 1) + '-' + addZero(new Date().getDate() + '.log');
+          fs.appendFile(configs.logger.folder + '/' + filename, text + '\n').catch((e)=>{console.log('Unable to log:', e)});
+        });
+      } else {
+        console.log(`Unable to log: "${configs.logger.folder}" no such file or directory`);
+      }
     }
   }
   const genLog = (type, chunks) => {

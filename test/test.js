@@ -3,9 +3,9 @@ const initScarecrow = require('../index.js');
 initScarecrow({
   folders: {
     controllers: __dirname + '/controllers',
-    intervals: __dirname + '/intervals',
-    helpers: __dirname + '/heplers',
-    models: __dirname + '/models',
+    // intervals: __dirname + '/intervals',
+    // helpers: __dirname + '/heplers',
+    // models: __dirname + '/models',
     textes: __dirname + '/textes',
   },
   languages: {
