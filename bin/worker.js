@@ -1,6 +1,7 @@
 module.exports = (configs, masterApp=null) => {
   const logger = require(__dirname + '/logger')(configs);
   const app = masterApp !== null ? masterApp : require(__dirname + '/init/app')(configs);
+  global.app = app;
   require(__dirname + '/init/database')(app);
   require(__dirname + '/https-server')(app);
   

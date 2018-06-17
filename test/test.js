@@ -48,5 +48,6 @@ initScarecrow({
     console: true
   },
   autoexit: 1000 * 60 * 60 * 24 * 7,
-  router: __dirname + '/router.js'
+  router: __dirname + '/router.js',
+  // banchmark: __dirname + '/banchamrk.json'
 });

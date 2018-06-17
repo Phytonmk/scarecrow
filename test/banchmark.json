@@ -1,0 +1,47 @@
+{
+  "users": 20,
+  "eventsPerSecond": 5,
+  "banchmarks": [
+    {
+      "users": [
+        {
+          "first_name": "banchmark_user",
+          "access": 0,
+          "state": "",
+        }
+      ],
+      "events": [
+        {
+          "type": "text",
+          "text": "Hi"
+        },
+        {
+          "type": "text",
+          "text": "some-text"
+        }
+      ],
+      "events-series": [
+        [
+          {
+            "type": "text",
+            "text": "/lang"
+          },
+          {
+            "type": "callback_query",
+            "callback_data": "set-language:ru"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "/lang"
+          },
+          {
+            "type": "callback_query",
+            "callback_data": "set-language:en"
+          }
+        ]
+      ]
+    }
+  ]
+}

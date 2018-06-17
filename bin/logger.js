@@ -1,4 +1,4 @@
-const fs = require('fs.promised');
+const fs = require('fs');
 const axios = require('axios'); 
 
 const addZero = a => {
@@ -10,10 +10,9 @@ const addZero = a => {
 
 module.exports = (configs) => {
   const loggers = [];
-
-  if (!configs.logger || configs.logger.console) {
-    loggers.push(console.log);
-  }
+  // if (!configs.logger || configs.logger.console) {
+  //   loggers.push(console.trace);
+  // }
   if (configs.logger) {
     if (configs.logger.telegram) {
       loggers.push((text) => {
@@ -27,7 +26,7 @@ module.exports = (configs) => {
       if (fs.existsSync(configs.logger.folder)) {
         loggers.push((text) => {
           const filename = new Date().getFullYear() + '-' + addZero(new Date().getMonth() + 1) + '-' + addZero(new Date().getDate() + '.log');
-          fs.appendFile(configs.logger.folder + '/' + filename, text + '\n').catch((e)=>{console.log('Unable to log:', e)});
+          fs.appendFile(configs.logger.folder + '/' + filename, text + '\n', (err) => err && console.log('Unable to log:', e));
         });
       } else {
         console.log(`Unable to log: "${configs.logger.folder}" no such file or directory`);
@@ -35,6 +34,7 @@ module.exports = (configs) => {
     }
   }
   const genLog = (type, chunks) => {
+    // console.trace(chunks);
     const date = new Date();
     let dateString = '[';
     dateString += addZero(date.getHours());

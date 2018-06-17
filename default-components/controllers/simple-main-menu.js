@@ -1,3 +1,4 @@
 module.exports = (ctx, user, app) => {
-  app.tg.sendMessage(user.id, 'Default main menu', {remove_keyboard: true});
+  user.setState('');
+  app.tg.sendMessage(user.id, 'Default main menu', {reply_markup: {remove_keyboard: true}});
 };
