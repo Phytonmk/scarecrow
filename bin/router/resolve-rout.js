@@ -23,10 +23,14 @@ const resolveRout = (router, event, user, Router, app, logger) => {
         await tryRoute(router, router.statesRoutes[userState], event, user, Router, app, resolve, reject, logger)
           .then(res => resolve(res))
           .catch(e => reject(e));
-      } else {
+      } else if (router.routes[event.event]) {
         await tryRoute(router, router.routes[event.event], event, user, Router, app, resolve, reject, logger)
           .then(res => resolve(res))
           .catch(e => reject(e));
+      } else {
+        tryDefaultController(router, event, user, app, logger)
+          .then(resolve)
+          .catch(reject);
       }
     } catch (e) {
       reject(e);
@@ -56,20 +60,26 @@ const tryRoute = (router, route, event, user, Router, app, logger) => new Promis
     }
     return;
   } else {
-    if (router.defaultController !== null) {
-      try {
-        router.defaultController(event.ctx, user, app, logger);
-        if (user.TMP_STA) {
-          user.state = user.TMP_STA;
-          delete user.TMP_STA;
-        }
-      } catch (e) {
-        reject(e);
-      }
-    } else {
-      resolve(false);
-    }
+    tryDefaultController(router, event, user, app, logger)
+      .then(resolve)
+      .catch(reject);
     // popUpForDefaultController(router, resolve, reject, event, user, app);
+  }
+});
+
+const tryDefaultController = (router, event, user, app, logger) => new Promise((resolve, reject) => {
+  if (router.defaultController !== null) {
+    try {
+      router.defaultController(event.ctx, user, app, logger);
+      if (user.TMP_STA) {
+        user.state = user.TMP_STA;
+        delete user.TMP_STA;
+      }
+    } catch (e) {
+      reject(e);
+    }
+  } else {
+    resolve(false);
   }
 });
 
