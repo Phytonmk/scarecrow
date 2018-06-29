@@ -6,7 +6,7 @@ initScarecrow({
     // intervals: __dirname + '/intervals',
     // helpers: __dirname + '/heplers',
     // models: __dirname + '/models',
-    textes: __dirname + '/textes',
+    texts: __dirname + '/texts',
   },
   languages: {
     many: true,

@@ -1,0 +1,41 @@
+language-full-title: English 🇺🇸 
+main-menu: Main menu
+select-language: Select language
+language-updated: Language switched to {{lang-name}}
+feedback-title: |
+  Send message to feedbak the major moderator of this bot.
+  Type *Cancel* to cancel action
+feedback-result: Message was sent 😁
+new-feedback: '*New feedbak*'
+answer-feedback: Answer feedback
+write-feedback-answer: Write feedback answer
+message-not-found: Message not found
+you-have-an-answer: '[You have an answer for you feedback]'
+cancel: Cancel
+canceled: Canceled
+user-translations-intro: |
+  *You can help translate this bot.*
+
+  All bot texts are processing as *.yaml* files
+  To translate, download the file below, open with some editor (e.g. Sublime text) and use comand /sendTranslation or button below to upload new language file
+  After checking by the bot's administrator language will be added to the bot
+user-translations-main-language: |
+  ❗️ English isn't main language of bot
+  You have to translate first file from the list below, but you also can use English version to do it easier 
+download-lang: 📦 Download {{lang}} file
+send-translation: Send translation now
+translation-file-waiting: Send translation *.yaml* file ot type *Cancel*
+valid-translation-file-rules-btn: Rules
+valid-translation-file-rules: |
+  *.yaml* File must:
+  - be valid yaml file
+  - be correctrly translated
+  - contain following field "language-full-title"
+  - not have fields that there are not in main language file
+  *- be named by from 2 to 5 language code (e.g. "en.yaml", "es.yaml", "de.yaml")*
+translation-file-send: Translation file was send to manual check ✅
+translation-file-invaild: Translation file contain wrong yaml markup ❌ 
+invalid-syntaxis: The command syntaxis is invalid 
+set-access-for: 'Set *{{access}}* access level for:'
+access-level-updated: User {{user}} got access level {{level}} ✅
+unable-update-access: You are not allowed to set _access level_ upper that yours or to change _access level_ that is not lower thane yours ❌

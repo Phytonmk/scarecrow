@@ -24,6 +24,7 @@ module.exports = (app, ctx) => {
       } else {
         user = userMatch;
       }
+      user.texts = app.texts[user.lang];
       user.setState = (state) => User.update({_id: user._id}, {$set: {state}});
       resolve(user);
     } catch(e) {

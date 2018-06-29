@@ -18,7 +18,7 @@ module.exports = (configs) => {
     throwErr('No router property');
   if (!fs.existsSync(configs.router))
       throwErr(configs.router + ' not exists');
-  if (typeof configs.autoexit !== 'number')
+  if (configs.autoexit && typeof configs.autoexit !== 'number')
     throwErr('Autoexit property is not a number');
 };
 const throwErr = (err) => {

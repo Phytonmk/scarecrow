@@ -18,10 +18,8 @@ const loadFromFolderToVariable = (folder, variable, app, component) => {
   }
 };
 
-module.exports = (app, components) => {
+const loadComponents = (app, components) => {
   let folders = app.configs.folders;
-  if (typeof folders === 'undefined')
-    folders = {};
   for (let component of components) {
     if (typeof app[component] === 'undefined') {
       app[component] = {};
@@ -29,3 +27,15 @@ module.exports = (app, components) => {
     loadFromFolderToVariable(folders[component], app[component], app, component);
   }
 };
+module.exports = (app, components) => {
+  loadComponents(app, components);
+  const initValueOfFolder = Object.assign({}, app.configs.folders);
+  app.configs.folders = {
+    'models': __dirname + '/../../default-components/models',
+    'helpers': __dirname + '/../../default-components/helpers',
+    'controllers': __dirname + '/../../default-components/controllers',
+    'texts': __dirname + '/../../default-components/texts',
+  };
+  loadComponents(app, components);
+  app.configs.folders = initValueOfFolder;
+}

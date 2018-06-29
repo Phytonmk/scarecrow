@@ -10,9 +10,9 @@ const addZero = a => {
 
 module.exports = (configs) => {
   const loggers = [];
-  // if (!configs.logger || configs.logger.console) {
-  //   loggers.push(console.trace);
-  // }
+  if (!configs.logger || configs.logger.console) {
+    loggers.push(console.log);
+  }
   if (configs.logger) {
     if (configs.logger.telegram) {
       loggers.push((text) => {

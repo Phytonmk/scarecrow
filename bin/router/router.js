@@ -3,6 +3,7 @@ module.exports = (app) => {
   const logger = require(__dirname + '/../logger')(app.configs);
   const Router = require(__dirname + '/router-class');
   const router = new Router();
+  app.router = router;
   const resolveRout = require(__dirname + '/resolve-rout');
   require(app.configs.router)(router, app.controllers, Router);
   require(__dirname + '/routing-default-components')(router, app, Router);

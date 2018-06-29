@@ -20,11 +20,16 @@ const resolveRout = (router, event, user, Router, app, logger) => {
         let userState = user.state
         user.TMP_STATE = userState;
         user.state = '';
-        await tryRoute(router, router.statesRoutes[userState], event, user, Router, app, resolve, reject, logger)
+        await tryRoute(router, router.statesRoutes[userState], event, user, Router, app, logger)
           .then(res => resolve(res))
           .catch(e => reject(e));
+      } else if (router.reply_routes && event.ctx.reply_to_message) {
+        for (let route of router.reply_routes)
+          await tryRoute(router, route, event, user, Router, app, logger)
+            .then(res => resolve(res))
+            .catch(e => reject(e));
       } else if (router.routes[event.event]) {
-        await tryRoute(router, router.routes[event.event], event, user, Router, app, resolve, reject, logger)
+        await tryRoute(router, router.routes[event.event], event, user, Router, app, logger)
           .then(res => resolve(res))
           .catch(e => reject(e));
       } else {
@@ -48,6 +53,10 @@ const tryRoute = (router, route, event, user, Router, app, logger) => new Promis
         .catch(reject);
     } else {
       try {
+        if (typeof controller !== 'function') {
+          reject('Controllers must be a function');
+          return;
+        }
         controller(event.ctx, user, app, logger);
         if (user.TMP_STATE) {
           user.state = user.TMP_STATE;

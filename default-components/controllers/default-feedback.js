@@ -1,11 +1,11 @@
 module.exports = {
   init: async (ctx, user, app) => {
-    const textes = app.textes[user.lang];
+    const texts = app.texts[user.lang];
     await app.tg.sendChatAction(user.id, 'typing');
     await user.setState('feedback-typing');
-    app.tg.sendMessage(user.id, textes['feedback-title'], {
+    app.tg.sendMessage(user.id, texts['feedback-title'], {
       reply_markup: {
-        keyboard: [[textes.cancel]],
+        keyboard: [[texts.cancel]],
         resize_keyboard: true,
         one_time_keyboard: true
       },
@@ -13,10 +13,10 @@ module.exports = {
     });
   },
   send: async (ctx, user, app, logger) => {
-    const textes = app.textes[user.lang];
-    if (ctx.text === textes.cancel) {
+    const texts = app.texts[user.lang];
+    if (ctx.text === texts.cancel) {
       const res = await user.setState('');
-      await app.tg.sendMessage(user.id, textes.canceled, {
+      await app.tg.sendMessage(user.id, texts.canceled, {
         reply_markup: {
           remove_keyboard: true
         }
@@ -28,18 +28,18 @@ module.exports = {
         .find({})
         .sort({access: -1})
         .limit(1);
-      const forwardedMessage = await app.tg.forwardMessage(admins[0].id, user.id, ctx.message_id, {}, console.log);
-      await app.tg.sendMessage(admins[0].id, textes['new-feedback'], {
+      const forwardedMessage = await app.tg.forwardMessage(admins[0].id, user.id, ctx.message_id);
+      await app.tg.sendMessage(admins[0].id, texts['new-feedback'], {
         parse_mode: 'Markdown',
         reply_to_message_id: forwardedMessage.message_id,
         reply_markup: {
           inline_keyboard: [[{
-            text: textes['answer-feedback'],
+            text: texts['answer-feedback'],
             callback_data: 'answer-feedback:' + forwardedMessage.message_id
           }]]
         }
       });
-      await app.tg.sendMessage(user.id, textes['feedback-result']);
+      await app.tg.sendMessage(user.id, texts['feedback-result']);
 
       const feedback = new app.models.FeedbackMessage({
         from: user.id,
@@ -52,7 +52,7 @@ module.exports = {
     }
   },
   adminInit: async (ctx, user, app) => {
-    const textes = app.textes[user.lang];
+    const texts = app.texts[user.lang];
     app.tg.answerCallbackQuery(ctx.id);
     await app.tg.sendChatAction(user.id, 'typing');
     
@@ -60,15 +60,15 @@ module.exports = {
     const feedback = await Feedback.findOne({admin: user.id, message_id: ctx.data.split(':')[1]});
     
     if (feedback === null) {
-      await app.tg.sendMessage(user.id, textes['message-not-found']);
+      await app.tg.sendMessage(user.id, texts['message-not-found']);
       return;
     }
 
     await Feedback.update({admin: user.id, message_id: ctx.data.split(':')[1]}, {$set: {answer_typing: true}}); 
     await user.setState('feedback-typing');
-    await app.tg.sendMessage(user.id, textes['write-feedback-answer'], {
+    await app.tg.sendMessage(user.id, texts['write-feedback-answer'], {
       reply_markup: {
-        keyboard: [[textes.cancel]],
+        keyboard: [[texts.cancel]],
         resize_keyboard: true,
         one_time_keyboard: true
       },
@@ -76,11 +76,11 @@ module.exports = {
     });
   },
   adminAnswer: async (ctx, user, app, logger) => {
-    const textes = app.textes[user.lang];
+    const texts = app.texts[user.lang];
     
-    if (ctx.text === textes.cancel) {
+    if (ctx.text === texts.cancel) {
       const res = await user.setState('');
-      await app.tg.sendMessage(user.id, textes.canceled, {
+      await app.tg.sendMessage(user.id, texts.canceled, {
         reply_markup: {
           remove_keyboard: true
         }
@@ -90,16 +90,16 @@ module.exports = {
       const feedback = await Feedback.findOne({admin: user.id, answer_typing: true});
       
       if (feedback === null) {
-        await app.tg.sendMessage(user.id, textes['message-not-found']);
+        await app.tg.sendMessage(user.id, texts['message-not-found']);
         return;
       }
 
       await user.setState('');
       
-      await app.tg.sendMessage(feedback.from, textes['you-have-an-answer'] + '\n' + ctx.text, {
+      await app.tg.sendMessage(feedback.from, texts['you-have-an-answer'] + '\n' + ctx.text, {
         reply_to_message_id: feedback.userside_message_id
       });
-      await app.tg.sendMessage(user.id, textes['feedback-result'], {
+      await app.tg.sendMessage(user.id, texts['feedback-result'], {
         remove_keyboard: true
       });
 

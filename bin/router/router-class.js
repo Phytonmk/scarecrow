@@ -25,8 +25,8 @@ class Router {
               compare = ctx.text;
             else if (ctx.caption !== undefined)
               compare = ctx.caption;
-            else if (ctx.query !== undefined)
-              compare = ctx.query;
+            else if (ctx.data !== undefined)
+              compare = ctx.data;
             // console.log(compare, condition);
             try {
               if (compare === null || condition === null)
@@ -65,17 +65,19 @@ class Router {
       this.accessLayers[level].push(controller);
     return controller;
   }
+  reply(controller) {
+    if (controller === undefined)
+      controller = new Router();
+    if (typeof this.reply_routes === 'undefined')
+      this.reply_routes = [controller];
+    else
+      this.reply_routes.push(controller);
+    return controller;
+  }
   state(state, controller) {
     if (controller === undefined) {
       controller = new Router();
     }
-    // const rout = (ctx, user, app) => new Promise ((resolve, reject) => {
-    //   // console.log(controller);
-    //   if (user.state === state)
-    //     resolve(controller);
-    //   else
-    //     resolve(false);
-    // });
     if (typeof this.statesRoutes[state] === 'undefined')
       this.statesRoutes[state] = [() => new Promise((resolve, reject) => resolve(controller))];
     else
